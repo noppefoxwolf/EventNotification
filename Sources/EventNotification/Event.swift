@@ -20,7 +20,7 @@ public protocol EventEncodable: Event {
 public typealias EventCodable = EventEncodable & EventDecodable
 
 public extension EventDecodable where Self: Decodable {
-    public init(userInfo: [AnyHashable : Any]?) throws {
+    init(userInfo: [AnyHashable : Any]?) throws {
         let data = try JSONSerialization.data(withJSONObject: userInfo as Any)
         let decoder = JSONDecoder()
         let entity = try decoder.decode(Self.self, from: data)
@@ -29,7 +29,7 @@ public extension EventDecodable where Self: Decodable {
 }
 
 public extension EventEncodable where Self: Encodable {
-    public func encode() throws -> [AnyHashable : Any]? {
+    func encode() throws -> [AnyHashable : Any]? {
         let encoder = JSONEncoder()
         let data = try encoder.encode(self)
         let jsonObject = try JSONSerialization.jsonObject(with: data)
