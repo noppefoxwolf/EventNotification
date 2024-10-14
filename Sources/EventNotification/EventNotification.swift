@@ -14,6 +14,16 @@ extension NotificationCenter {
             .compactMap { try? T.init(userInfo: $0.userInfo) }
             .eraseToAnyPublisher()
     }
+
+    @available(iOS 18.0, *)
+    public func events<T: EventDecodable>(
+        type: T.Type = T.self,
+        object: (AnyObject & Sendable)? = nil
+    ) -> some AsyncSequence<T, Never> {
+        let name = Notification.Name(T.name)
+        return notifications(named: name, object: object)
+            .compactMap({ try? T.init(userInfo: $0.userInfo) })
+    }
 }
 
 extension NotificationQueue {
