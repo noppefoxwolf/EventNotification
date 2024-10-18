@@ -14,7 +14,7 @@ public final class EventQueue<E: Event & Sendable>: Sendable {
         latestEvent.compactMap({ $0 }).share()
     }
 
-    public func enqueue(_ event: E) async {
+    public func enqueue(_ event: E) {
         latestEvent.send(event)
     }
 }
